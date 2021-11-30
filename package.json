@@ -13,6 +13,7 @@
   "author": "coderslav",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.24.0",
     "blessed": "^0.1.81"
   }
 }
