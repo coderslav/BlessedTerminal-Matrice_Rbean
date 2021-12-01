@@ -1,0 +1,3 @@
+const CRYPTOCURRENCY_API_KEY = 'a041b465-e1dd-4f7d-89e6-bd1d5dc6e56c';
+
+module.exports = CRYPTOCURRENCY_API_KEY;
