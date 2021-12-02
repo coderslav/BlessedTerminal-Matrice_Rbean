@@ -276,7 +276,6 @@ submitButton.addListener('click', () => {
                     formattedBTCprice = parseFloat(data.data.data.BTC.quote.GBP.price.toFixed(4)).toLocaleString('en-FR', { minimumFractionDigits: 4 });
                 }
                 exchangeCurrency.setContent(`${ticker}\n${formattedBTCprice}`);
-                screen.render();
             })
             .catch((err) => {
                 console.log(err);
@@ -287,14 +286,12 @@ submitButton.addListener('click', () => {
 
 cancelButton.addListener('click', () => {
     screen.remove(exchangeCurrencyChoice);
-    screen.render();
 });
 
 inputField.once('focus', () => {
     inputField.clearValue();
     inputField.style.fg = 'black';
     inputField.style.bg = 'white';
-    screen.render();
 });
 inputField.addListener('submit', () => {
     axios
@@ -309,9 +306,7 @@ inputField.addListener('submit', () => {
                     inputField.clearValue();
                     inputField.style.fg = 'black';
                     inputField.style.bg = 'white';
-                    screen.render();
                 });
-                screen.render();
             } else {
                 inputField.clearValue();
                 inputField.style.fg = 'white';
@@ -322,14 +317,26 @@ inputField.addListener('submit', () => {
                     inputField.clearValue();
                     inputField.style.fg = 'black';
                     inputField.style.bg = 'white';
-                    screen.render();
                 });
                 weatherBox.setContent(`\n\n\n\n\n\n\n\n\n\n${data.data.data.request[0].query}: ` + data.data.data.current_condition[0].temp_C + '°C');
                 weatherImage.setImage(data.data.data.current_condition[0].weatherIconUrl[0].value);
-                screen.render();
             }
         })
         .catch((err) => console.log(err));
+});
+
+inputField.addListener('cancel', () => {
+    if (inputField.value === '') {
+        inputField.style.fg = 'white';
+        inputField.style.bg = 'blue';
+        inputField.style.hover.fg = 'black';
+        inputField.setValue('Choose a City');
+        inputField.once('focus', () => {
+            inputField.clearValue();
+            inputField.style.fg = 'black';
+            inputField.style.bg = 'white';
+        });
+    }
 });
 
 changeTimeFormatButton.addListener('press', () => {
@@ -338,12 +345,10 @@ changeTimeFormatButton.addListener('press', () => {
         format = 'en-GB';
         box.setContent(`\n\n\n\n\n${timeHandler(format).time}\n\n\n\n\n${timeHandler(format).date}`);
         changeTimeFormatButton.setContent('US Date/Time Format');
-        screen.render();
     } else {
         format = 'en-US';
         box.setContent(`\n\n\n\n\n${timeHandler(format).time}\n\n\n\n\n${timeHandler(format).date}`);
         changeTimeFormatButton.setContent('EU Date/Time Format');
-        screen.render();
     }
 });
 
@@ -388,11 +393,9 @@ setInterval(() => {
     if (box.content.includes('PM') || box.content.includes('AM')) {
         format = 'en-US';
         box.setContent(`\n\n\n\n\n${timeHandler(format).time}\n\n\n\n\n${timeHandler(format).date}`);
-        screen.render();
     } else {
         format = 'en-GB';
         box.setContent(`\n\n\n\n\n${timeHandler(format).time}\n\n\n\n\n${timeHandler(format).date}`);
-        screen.render();
     }
 }, 1000);
 
@@ -444,3 +447,7 @@ setInterval(() => {
             console.log(err);
         });
 }, 5 * 6000);
+
+setInterval(() => {
+    screen.render();
+}, 100);
